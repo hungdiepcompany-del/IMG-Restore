@@ -31,6 +31,7 @@ export default function App() {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [quality, setQuality] = useState<'Standard' | 'High' | 'Ultra'>('Standard');
   const [isColorized, setIsColorized] = useState(true);
+  const [artStyle, setArtStyle] = useState<'Realistic' | 'OilPainting'>('Realistic');
   const [isDragging, setIsDragging] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -70,13 +71,17 @@ export default function App() {
       const colorInstruction = isColorized 
         ? "Colorize it with natural skin tones and realistic colors." 
         : "Keep the photo in its original black and white or grayscale tones. Do not add any new colors.";
+      
+      const styleInstruction = artStyle === 'OilPainting'
+        ? "Transform this photo into a beautiful oil painting. Use rich textures, visible brushstrokes, and vibrant colors typical of a classic oil on canvas masterpiece. Maintain the composition but render it in an artistic, painterly style."
+        : "";
 
       if (quality === 'Standard') {
-        prompt = `Restore this old photo, remove scratches, noise, and damage. ${colorInstruction} High quality, sharp details, professional restoration.`;
+        prompt = `Restore this old photo, remove scratches, noise, and damage. ${colorInstruction} ${styleInstruction} High quality, sharp details, professional restoration.`;
       } else if (quality === 'High') {
-        prompt = `Restore this old photo with maximum detail, remove all scratches, noise, and damage. ${colorInstruction} High quality, sharp details, professional restoration.`;
+        prompt = `Restore this old photo with maximum detail, remove all scratches, noise, and damage. ${colorInstruction} ${styleInstruction} High quality, sharp details, professional restoration.`;
       } else if (quality === 'Ultra') {
-        prompt = `Perform an ultra-high-definition restoration of this old photograph. Meticulously remove every scratch, dust particle, and blemish. Reconstruct missing details with AI precision. ${isColorized ? "Apply sophisticated colorization with multi-layered skin tones, realistic textures, and cinematic color grading." : "Maintain the original black and white aesthetic with enhanced contrast and clarity."} The output must be sharp, noise-free, and look like a modern high-resolution photograph while preserving the original essence.`;
+        prompt = `Perform an ultra-high-definition restoration of this old photograph. Meticulously remove every scratch, dust particle, and blemish. Reconstruct missing details with AI precision. ${isColorized ? "Apply sophisticated colorization with multi-layered skin tones, realistic textures, and cinematic color grading." : "Maintain the original black and white aesthetic with enhanced contrast and clarity."} ${styleInstruction} The output must be sharp, noise-free, and look like a modern high-resolution photograph while preserving the original essence.`;
       }
 
       const response = await ai.models.generateContent({
@@ -366,6 +371,33 @@ export default function App() {
                             }`}
                           >
                             Đen trắng
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Style Toggle */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[10px] uppercase tracking-wider text-[#86868B] font-bold ml-2">Phong cách</span>
+                        <div className="flex items-center bg-white border border-[#D2D2D7] rounded-full p-1 shadow-sm">
+                          <button
+                            onClick={() => setArtStyle('Realistic')}
+                            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                              artStyle === 'Realistic' 
+                                ? 'bg-[#1D1D1F] text-white shadow-md' 
+                                : 'text-[#1D1D1F] hover:bg-[#F5F5F7]'
+                            }`}
+                          >
+                            Ảnh thực
+                          </button>
+                          <button
+                            onClick={() => setArtStyle('OilPainting')}
+                            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                              artStyle === 'OilPainting' 
+                                ? 'bg-[#8E44AD] text-white shadow-md' 
+                                : 'text-[#1D1D1F] hover:bg-[#F5F5F7]'
+                            }`}
+                          >
+                            Sơn dầu
                           </button>
                         </div>
                       </div>
