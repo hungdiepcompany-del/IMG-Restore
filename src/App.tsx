@@ -76,12 +76,14 @@ export default function App() {
         ? "Transform this photo into a beautiful oil painting. Use rich textures, visible brushstrokes, and vibrant colors typical of a classic oil on canvas masterpiece. Maintain the composition but render it in an artistic, painterly style."
         : "";
 
+      const preservationInstruction = "Strictly preserve the original facial features, head shape, hair texture, and shoulder lines. Do not alter the person's identity or physical structure.";
+      
       if (quality === 'Standard') {
-        prompt = `Restore this old photo, remove scratches, noise, and damage. ${colorInstruction} ${styleInstruction} High quality, sharp details, professional restoration.`;
+        prompt = `Restore this old photo, remove scratches, noise, and damage. ${colorInstruction} ${styleInstruction} ${preservationInstruction} High quality, sharp details, professional restoration.`;
       } else if (quality === 'High') {
-        prompt = `Restore this old photo with maximum detail, remove all scratches, noise, and damage. ${colorInstruction} ${styleInstruction} High quality, sharp details, professional restoration.`;
+        prompt = `Restore this old photo with maximum detail, remove all scratches, noise, and damage. ${colorInstruction} ${styleInstruction} ${preservationInstruction} High quality, sharp details, professional restoration.`;
       } else if (quality === 'Ultra') {
-        prompt = `Perform an ultra-high-definition restoration of this old photograph. Meticulously remove every scratch, dust particle, and blemish. Reconstruct missing details with AI precision. ${isColorized ? "Apply sophisticated colorization with multi-layered skin tones, realistic textures, and cinematic color grading." : "Maintain the original black and white aesthetic with enhanced contrast and clarity."} ${styleInstruction} The output must be sharp, noise-free, and look like a modern high-resolution photograph while preserving the original essence.`;
+        prompt = `Perform an ultra-high-definition restoration of this old photograph. Meticulously remove every scratch, dust particle, and blemish. Reconstruct missing details with AI precision. ${isColorized ? "Apply sophisticated colorization with multi-layered skin tones, realistic textures, and cinematic color grading." : "Maintain the original black and white aesthetic with enhanced contrast and clarity."} ${styleInstruction} ${preservationInstruction} The output must be sharp, noise-free, and look like a modern high-resolution photograph while preserving the original essence.`;
       }
 
       const response = await ai.models.generateContent({
@@ -416,14 +418,24 @@ export default function App() {
                   <div className="flex flex-wrap justify-center gap-4">
                     <button
                       onClick={handleDownload}
-                      className="bg-white text-[#1D1D1F] border border-[#D2D2D7] px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 hover:bg-[#F5F5F7] transition-colors shadow-sm"
+                      disabled={isProcessing}
+                      className="bg-white text-[#1D1D1F] border border-[#D2D2D7] px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 hover:bg-[#F5F5F7] transition-colors shadow-sm disabled:opacity-50"
                     >
                       <Download className="w-5 h-5" />
                       Tải ảnh After
                     </button>
                     <button
+                      onClick={handleRestore}
+                      disabled={isProcessing}
+                      className="bg-white text-[#1D1D1F] border border-[#D2D2D7] px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 hover:bg-[#F5F5F7] transition-colors shadow-sm disabled:opacity-50"
+                    >
+                      {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : <RefreshCw className="w-5 h-5" />}
+                      Phục chế lại
+                    </button>
+                    <button
                       onClick={handleReset}
-                      className="bg-[#F5F5F7] text-[#1D1D1F] px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 hover:bg-[#E8E8ED] transition-colors"
+                      disabled={isProcessing}
+                      className="bg-[#F5F5F7] text-[#1D1D1F] px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-2 hover:bg-[#E8E8ED] transition-colors disabled:opacity-50"
                     >
                       <History className="w-5 h-5" />
                       Làm lại
