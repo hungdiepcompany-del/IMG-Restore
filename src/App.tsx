@@ -318,7 +318,7 @@ export default function App() {
                                 : 'text-[#1D1D1F] hover:bg-[#F5F5F7]'
                             }`}
                           >
-                            Standard
+                            Tiêu chuẩn
                           </button>
                           <button
                             onClick={() => setQuality('High')}
@@ -328,7 +328,7 @@ export default function App() {
                                 : 'text-[#1D1D1F] hover:bg-[#F5F5F7]'
                             }`}
                           >
-                            High
+                            Chất lượng cao
                           </button>
                           <button
                             onClick={() => setQuality('Ultra')}
@@ -338,7 +338,7 @@ export default function App() {
                                 : 'text-[#1D1D1F] hover:bg-[#F5F5F7]'
                             }`}
                           >
-                            Ultra
+                            Siêu cấp
                           </button>
                         </div>
                       </div>
@@ -406,8 +406,7 @@ export default function App() {
 
       {/* Footer Info */}
       <footer className="mt-20 text-center text-[#86868B] text-sm pb-8">
-        <p>© 2024 IMG Restore • Công nghệ AI Phục chế Ảnh</p>
-        <p className="mt-1">Thiết kế tối giản theo phong cách Apple</p>
+        <p>© 2026 IMG Restore • Công nghệ AI Phục chế Ảnh</p>
         <p className="mt-2 text-[#0071E3] font-medium">Creator: <a href="mailto:giadinhphamvan@gmail.com" className="hover:underline transition-all">giadinhphamvan@gmail.com</a></p>
       </footer>
     </div>
